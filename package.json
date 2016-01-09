@@ -1,0 +1,43 @@
+{
+  "name": "exseed-boilerplate",
+  "version": "0.1.0",
+  "description": "An exseed boilerplate project with official apps installed",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./build/server.js NODE_ENV=development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exseed/exseed-boilerplate.git"
+  },
+  "keywords": [
+    "node",
+    "framework",
+    "exseed",
+    "boilerplate"
+  ],
+  "author": "Weng, Chih-Ping <gocreating@gmail.com> (http://github.com/gocreating)",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "source-map-support": "^0.3.3",
+    "superagent": "^1.4.0"
+  },
+  "dependencies": {
+    "alt": "^0.17.9",
+    "body-parser": "^1.14.1",
+    "classnames": "^2.2.1",
+    "cookie-parser": "^1.4.0",
+    "exseed": "^0.1.15",
+    "jwt-simple": "^0.4.0",
+    "moment": "^2.10.6",
+    "morgan": "^1.6.1",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-helmet": "^2.1.1",
+    "react-router": "^2.0.0-rc4",
+    "sails-disk": "^0.10.8",
+    "serve-favicon": "^2.3.0"
+  }
+}
