@@ -3,7 +3,7 @@ import sailsDisk from 'sails-disk';
 
 export default {
   installedApps: [
-    './exseed.core',
+    // './exseed.core',
     './exseed.contrib.basic',
     // './exseed.contrib.user',
     // './todoapp',
