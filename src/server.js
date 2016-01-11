@@ -1,13 +1,11 @@
-import { run } from 'exseed';
+import { env, app } from 'exseed';
 import settings from './settings';
 
-if (process.env.NODE_ENV === 'development') {
+if (env.development) {
   require('source-map-support').install();
 }
 
-run(__dirname, settings, (err, models, port) => {
-  if (err) {
-    throw err;
-  }
-  console.log(`HTTP server listening on port ${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`HTTP server listening on port ${PORT}`);
 });
