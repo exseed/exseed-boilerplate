@@ -14,6 +14,10 @@ sftp-configuration.json
 
 # Build files
 /build
+.exseed.opts.json
+
+# DB
+/db
 
 # Others
 .DS_Store

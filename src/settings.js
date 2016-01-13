@@ -3,18 +3,11 @@ import sailsDisk from 'sails-disk';
 
 export default {
   installedApps: [
-    // './exseed.core',
+    './exseed.core',
     './exseed.contrib.basic',
-    // './exseed.contrib.user',
+    './exseed.contrib.user',
     // './todoapp',
   ],
-  server: {
-    port: {
-      development: 3000,
-      test: 4000,
-      production: 5000,
-    },
-  },
   db: {
     development: {
       adapters: {
@@ -23,7 +16,7 @@ export default {
       connections: {
         default: {
           adapter: 'disk',
-          filePath: path.join(__dirname, '../../.db/development.'),
+          filePath: path.join(__dirname, '../db/development.'),
         },
       },
     },
@@ -34,7 +27,7 @@ export default {
       connections: {
         default: {
           adapter: 'disk',
-          filePath: path.join(__dirname, '../../.db/test.'),
+          filePath: path.join(__dirname, '../db/test.'),
         },
       },
     },
@@ -45,7 +38,7 @@ export default {
       connections: {
         default: {
           adapter: 'disk',
-          filePath: path.join(__dirname, '../../.db/production.'),
+          filePath: path.join(__dirname, '../db/production.'),
         },
       },
     },
