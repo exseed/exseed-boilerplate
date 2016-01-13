@@ -1,4 +1,4 @@
-export default {
+export const todolist = {
   identity: 'todolist',
   attributes: {
     content: {

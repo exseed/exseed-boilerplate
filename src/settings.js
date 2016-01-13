@@ -6,7 +6,7 @@ export default {
     './exseed.core',
     './exseed.contrib.basic',
     './exseed.contrib.user',
-    // './todoapp',
+    './todoapp',
   ],
   db: {
     development: {

@@ -1,9 +1,19 @@
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { models } from 'exseed';
 
-import settings from './settings';
-import MainPage from './flux/views/pages/MainPage';
+export default function routes({ app }) {
+  app.get('/api/todolist', (req, res) => {
+    models.todolist
+      .find()
+      .then((todolist) => {
+        res.json(todolist);
+      });
+  });
 
-export default (
-  <Route path="/todo" component={MainPage} EXSEED_APP_NAME={settings.name} />
-);
+  app.post('/api/todolist', (req, res) => {
+    models.todolist
+      .create(req.body.todo)
+      .then((todo) => {
+        res.json(todo);
+      });
+  });
+}
