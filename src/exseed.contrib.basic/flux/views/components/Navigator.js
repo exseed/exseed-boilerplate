@@ -1,6 +1,5 @@
 import React from 'react';
-import { createLinkOf }
-from '../../../../exseed.core/flux/views/components/AppLink';
+import { createLinkOf } from '@core/views/components/AppLink';
 
 export default class Navigator extends React.Component {
   render() {
