@@ -7,6 +7,7 @@ export default {
     './exseed.contrib.basic',
     './exseed.contrib.user',
     './todoapp',
+    './blog',
   ],
   db: {
     development: {
