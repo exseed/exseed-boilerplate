@@ -20,6 +20,10 @@ export default class Header extends React.Component {
           className="item">ARTICLE</Link>
         <Link
           app="blog"
+          to="/blog/new"
+          className="item">NEW ARTICLE</Link>
+        <Link
+          app="blog"
           to="/blog/about"
           className="item">ABOUT</Link>
         <Link
