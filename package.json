@@ -25,7 +25,8 @@
     "superagent": "^1.4.0"
   },
   "dependencies": {
-    "alt": "^0.17.9",
+    "alt": "^0.18.2",
+    "alt-utils": "^1.0.0",
     "body-parser": "^1.14.1",
     "classnames": "^2.2.1",
     "cookie-parser": "^1.4.0",

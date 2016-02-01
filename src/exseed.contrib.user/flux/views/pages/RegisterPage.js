@@ -1,6 +1,6 @@
 import React from 'react';
 
-import connectToStores from 'alt/utils/connectToStores';
+import connectToStores from 'alt-utils/lib/connectToStores';
 import UserStore from '../../stores/UserStore';
 import UserActions from '../../actions/UserActions';
 
