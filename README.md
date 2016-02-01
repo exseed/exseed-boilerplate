@@ -19,5 +19,6 @@ Inside the project root
 
 ```
 sd build --watch
+sd init
 sd serve
 ```
