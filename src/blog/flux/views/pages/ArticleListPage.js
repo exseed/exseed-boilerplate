@@ -1,4 +1,5 @@
 import React from 'react';
+import MenuLayout from '../layouts/MenuLayout';
 
 export default class ArticleListPage extends React.Component {
   constructor(state) {
@@ -35,10 +36,14 @@ export default class ArticleListPage extends React.Component {
       </div>
     );
 
-    return <div className="container right">
-      <div class="ui very relaxed items">
-        {list}
-      </div>
-    </div>;
+    return (
+      <MenuLayout>
+        <div className="container right">
+          <div className="ui very relaxed items">
+            {list}
+          </div>
+        </div>
+      </MenuLayout>
+    );
   }
 };

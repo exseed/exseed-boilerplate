@@ -1,7 +1,6 @@
 import React from 'react';
 import BaseLayout from '@core/views/layouts/BaseLayout';
 import Header from '../components/Header';
-import Menu from '../components/Menu';
 import Footer from '../components/Footer';
 
 export default class AppLayout extends React.Component {
@@ -25,16 +24,7 @@ export default class AppLayout extends React.Component {
         scripts={scripts}
         styles={styles} >
         <Header />
-        <div className="ui container basic segment">
-          <div className="ui stackable grid">
-            <div className="ui four wide column">
-              <Menu {...this.props} />
-            </div>
-            <div className="ui twelve wide column">
-              {this.props.children}
-            </div>
-          </div>
-        </div>
+        {this.props.children}
         <Footer />
       </BaseLayout>
     );

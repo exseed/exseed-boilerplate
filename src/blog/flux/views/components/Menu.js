@@ -1,11 +1,12 @@
 import React from 'react';
-import { createLinkOf } from '@core/views/components/AppLink';
+import { Link } from 'react-router';
+// import { createLinkOf } from '@core/views/components/AppLink';
 
 export default class Header extends React.Component {
   render() {
-    const EXSEED_APP_NAME = (
-      this.props.route? this.props.route.EXSEED_APP_NAME: '');
-    const Link = createLinkOf(EXSEED_APP_NAME);
+    // const EXSEED_APP_NAME = (
+    //   this.props.route? this.props.route.EXSEED_APP_NAME: '');
+    // const Link = createLinkOf(EXSEED_APP_NAME);
 
     return (
       <div className="ui secondary vertical pointing menu">

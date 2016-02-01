@@ -1,9 +1,14 @@
 import React from 'react';
+import MenuLayout from '../layouts/MenuLayout';
 
 export default class AboutPage extends React.Component {
   render() {
-    return <div className="container">
-      <h1>About</h1>
-    </div>;
+    return (
+      <MenuLayout>
+        <div className="container">
+          <h1>About</h1>
+        </div>
+      </MenuLayout>
+    );
   }
 };
