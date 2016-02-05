@@ -62,6 +62,7 @@ const widgetTarget = {
 
 @DropTarget(ItemTypes.WIDGET_SORT, widgetTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
+  _isDragging: !!monitor.getItem(),
 }))
 @DragSource(ItemTypes.WIDGET_SORT, widgetSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
@@ -102,13 +103,14 @@ export default class SortableWidget extends React.Component {
       connectDragSource,
       connectDropTarget,
       isDragging,
+      _isDragging,
       index,
       type,
       value
     } = this.props;
 
     const opacity = isDragging? 0.3: 1;
-    const outline = isDragging? '1px dashed gray': 'none';
+    const outline = _isDragging? '1px dashed gray': 'none';
 
     return connectDragSource(connectDropTarget(
       <div style={{ ...style.widgetContainer, opacity, outline }}>
