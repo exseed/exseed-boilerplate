@@ -24,7 +24,10 @@ class WidgetStore {
         type: 'header',
         fields: [{
           type: FieldTypes.TEXT,
-          label: 'content',
+          label: 'header',
+        }, {
+          type: FieldTypes.TEXT,
+          label: 'subheader',
         }, {
           type: FieldTypes.SELECT,
           label: 'level',
@@ -37,7 +40,8 @@ class WidgetStore {
           ],
         }],
         defaultValue: {
-          content: 'Sample Header',
+          header: 'Sample Header',
+          subheader: '',
           align: 'left',
           level: 2,
         },
