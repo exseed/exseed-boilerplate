@@ -7,9 +7,10 @@ export default class AppLayout extends React.Component {
   render() {
     // jscs:disable
     const scripts = [
-      '/blog/js/bundle.js',
       'https://code.jquery.com/jquery-2.1.4.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js',
+      '/blog/js/bundle.js',
+      '/blog/js/main.js',
     ];
 
     const styles = [

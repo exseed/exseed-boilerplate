@@ -1,10 +1,10 @@
 import React from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-import Widget from '../components/Widget';
 import SampleWidget from '../components/SampleWidget';
-import WidgetHolder from '../components/WidgetHolder';
+import SortableWidget from '../components/SortableWidget';
 import connectToStores from 'alt-utils/lib/connectToStores';
+import WidgetAction from '../../actions/WidgetAction';
 import WidgetStore from '../../stores/WidgetStore';
 
 @DragDropContext(HTML5Backend)
@@ -18,11 +18,36 @@ export default class ArticleNewPage extends React.Component {
     return WidgetStore.getState();
   }
 
+  _handleInsertClick(widget) {
+    WidgetAction.pushWidget(widget);
+  }
+
+  renderInsertDropdown() {
+    return (
+      <div className="ui compact menu">
+        <div className="ui simple dropdown item">
+          Insert
+          <i className="dropdown icon"></i>
+          <div className="menu">
+            {this.props.sampleWidgets.map((widget, index) =>
+              <div
+                key={index}
+                className="item"
+                onClick={this._handleInsertClick.bind(this, widget)}>
+                {widget.type}
+              </div>)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="ui container basic segment">
         <div className="ui stackable grid">
           <div className="ui four wide column">
+            {this.renderInsertDropdown()}
             <div className="ui secondary vertical pointing menu">
               {this.props.sampleWidgets.map(widget =>
                 <SampleWidget
@@ -32,14 +57,10 @@ export default class ArticleNewPage extends React.Component {
           </div>
           <div className="ui twelve wide column">
             {this.props.contentWidgets.map((widget, index) =>
-              <span key={widget.id}>
-                <WidgetHolder
-                  index={index} />
-                <Widget
-                  {...widget} />
-              </span>)}
-            <WidgetHolder
-              index={this.props.contentWidgets.length} />
+              <SortableWidget
+                key={widget.id}
+                index={index}
+                {...widget} />)}
           </div>
         </div>
       </div>

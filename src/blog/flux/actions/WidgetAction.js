@@ -3,7 +3,11 @@ import alt from '../alt';
 class WidgetActions {
   constructor() {
     this.generateActions(
-      'insertWidget'
+      'insertWidget',
+      'pushWidget',
+      'removeWidget',
+      'moveWidget',
+      'updateValue'
     );
   }
 }

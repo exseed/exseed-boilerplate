@@ -1,6 +1,10 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { ItemTypes } from '../../constants';
-import { DropTarget } from 'react-dnd';
+import { DragSource, DropTarget } from 'react-dnd';
+import SortableWidget from './SortableWidget';
+import Widget from './Widget';
+import WidgetHolder from './WidgetHolder';
 import WidgetAction from '../../actions/WidgetAction';
 
 const widgetTarget = {
@@ -28,23 +32,24 @@ function collect(connect, monitor) {
 }
 
 @DropTarget(ItemTypes.WIDGET_CREATE, widgetTarget, collect)
-export default class WidgetHolder extends React.Component {
+export default class InsertableWidget extends React.Component {
   render() {
     const {
       connectDropTarget,
       isDragging,
       isOver,
-      item,
-      index
+      index,
+      type,
+      value
     } = this.props;
-    const style = {
-      width: '100%',
-      display: isDragging? undefined: 'none',
-      backgroundColor: isOver? 'green': '#eee',
-    };
+
     return connectDropTarget(
-      <div style={style}>
-        Drop here
+      <div>
+        {isOver && 'drop here'}
+        <Widget
+          type={type}
+          value={value} />
+        {isOver && 'drop here'}
       </div>
     );
   }
