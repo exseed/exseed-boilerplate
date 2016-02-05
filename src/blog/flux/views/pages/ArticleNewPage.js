@@ -29,7 +29,7 @@ export default class ArticleNewPage extends React.Component {
           Insert
           <i className="dropdown icon"></i>
           <div className="menu">
-            {this.props.sampleWidgets.map((widget, index) =>
+            {this.props.widgetSets.map((widget, index) =>
               <div
                 key={index}
                 className="item"
@@ -49,7 +49,7 @@ export default class ArticleNewPage extends React.Component {
           <div className="ui four wide column">
             {this.renderInsertDropdown()}
             <div className="ui secondary vertical pointing menu">
-              {this.props.sampleWidgets.map(widget =>
+              {this.props.widgetSets.map(widget =>
                 <SampleWidget
                   key={widget.id}
                   {...widget} />)}

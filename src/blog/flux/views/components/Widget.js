@@ -1,36 +1,51 @@
 import React from 'react';
+import classNames from 'classnames';
+import assign from 'object-assign';
+import WidgetStore from '../../stores/WidgetStore';
 import { FieldTypes } from '../../constants';
+
+// widget sets
 import Text from './widgets/Text';
 import Image from './widgets/Image';
-import Header1 from './widgets/Header1';
+import Header from './widgets/Header';
+
+function _getWidgetSet(type) {
+  const { widgetSets } = WidgetStore.getState();
+  const widgetSet = widgetSets.filter(widget =>
+    widget.type === type)[0];
+  return widgetSet;
+}
 
 export default class Widget extends React.Component {
   constructor(state) {
     super(state);
-    this.mouseOver = this.mouseOver.bind(this);
-    this.mouseOut = this.mouseOut.bind(this);
+    this._handleMouseOver = this._handleMouseOver.bind(this);
+    this._handleMouseOut = this._handleMouseOut.bind(this);
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleEditorSubmit = this._handleEditorSubmit.bind(this);
-    // this._handleFieldChange = this._handleFieldChange.bind(this);
-    this.renderWidgetToolbar = this.renderWidgetToolbar.bind(this);
-    this.renderWidgetEditor = this.renderWidgetEditor.bind(this);
+    this._handleWidgetRemove = this._handleWidgetRemove.bind(this);
+    this._renderWidgetToolbar = this._renderWidgetToolbar.bind(this);
+    this._renderWidgetEditor = this._renderWidgetEditor.bind(this);
+
+    // use default value when some value is not defined
+    const composedValue = assign(
+      {},
+      _getWidgetSet(this.props.type).defaultValue,
+      this.props.value
+    );
     this.state = {
       isShowToolbar: false,
       isShowEditor: false,
-      value: this.props.value,
+      value: composedValue,
     };
   }
 
-  mouseOver() {
-    this.setState({
-      isShowToolbar: true
-    });
+  _handleMouseOver() {
+    this.setState({ isShowToolbar: true });
   }
 
-  mouseOut() {
-    this.setState({
-      isShowToolbar: false
-    });
+  _handleMouseOut() {
+    this.setState({ isShowToolbar: false });
   }
 
   _handleEditClick(e) {
@@ -42,8 +57,9 @@ export default class Widget extends React.Component {
   _handleFieldChange(label, e) {
     let newPair = {};
     newPair[`${label}`] = e.target.value;
+    const newValue = assign({}, this.state.value, newPair);
     this.setState({
-      value: newPair,
+      value: newValue,
     });
   }
 
@@ -51,7 +67,11 @@ export default class Widget extends React.Component {
     this.props.onSave(this.state.value);
   }
 
-  renderWidgetToolbar() {
+  _handleWidgetRemove(e) {
+    this.props.onRemove();
+  }
+
+  _renderWidgetToolbar() {
     const style = {
       backgroundColor: '#eee',
       zIndex: 999,
@@ -67,17 +87,18 @@ export default class Widget extends React.Component {
         <span className="ui teal label">
           {this.props.type}
         </span>
-        <span
+        <a
           className="ui teal label"
           onClick={this._handleEditClick}>
           <i className="edit icon"></i>
           Edit
-        </span>
+        </a>
       </div>
     );
   }
 
-  renderWidgetEditor() {
+  _renderWidgetEditor() {
+    const { fields } = _getWidgetSet(this.props.type);
     const style = {
       backgroundColor: '#eee',
       width: '100%',
@@ -85,24 +106,41 @@ export default class Widget extends React.Component {
       display: this.state.isShowEditor? 'block': 'none',
     };
 
-    const { fields } = this.props;
-
     return (
       <div style={style}>
         <div className="ui form">
-          {fields.map(field =>
-            <div className="field" key={field.label}>
-              <label>{field.label}</label>
-              {field.type == FieldTypes.TEXTAREA &&
-                <textarea
-                  onChange={this._handleFieldChange.bind(this, field.label)}
-                  value={this.state.value[field.label]} />}
-              {field.type == FieldTypes.TEXT &&
-                <input
-                  type="text"
-                  onChange={this._handleFieldChange.bind(this, field.label)}
-                  value={this.state.value[field.label]} />}
-            </div>)}
+          {fields.map(field => {
+            return (
+              <div className="field" key={field.label}>
+                <label>{field.label}</label>
+                {field.type == FieldTypes.TEXTAREA &&
+                  <textarea
+                    onChange={this._handleFieldChange.bind(this, field.label)}
+                    value={this.state.value[field.label]} />}
+                {field.type == FieldTypes.TEXT &&
+                  <input
+                    type="text"
+                    onChange={this._handleFieldChange.bind(this, field.label)}
+                    value={this.state.value[field.label]} />}
+                {field.type == FieldTypes.SELECT &&
+                  <select
+                    defaultValue={this.state.value[field.label]}
+                    onChange={this._handleFieldChange.bind(this, field.label)}>
+                    {field.options.map(option =>
+                      <option
+                        key={option.value}
+                        value={option.value}>
+                        {option.label}
+                      </option>)}
+                  </select>}
+              </div>
+            );
+          })}
+          <div
+            className="ui mini red button"
+            onClick={this._handleWidgetRemove}>
+            Delete
+          </div>
           <div
             className="ui submit mini teal button"
             onClick={this._handleEditorSubmit}>
@@ -114,36 +152,54 @@ export default class Widget extends React.Component {
   }
 
   render() {
-    const widgetMap = {
+    const widgetComponentMap = {
       text: Text,
       img: Image,
-      h1: Header1,
+      header: Header,
     };
 
     const {
-      onChange,
       type,
       value
     } = this.props;
 
-    const WidgetComponent = widgetMap[type];
+    const WidgetComponent = widgetComponentMap[type];
 
     const style = {
       position: 'relative',
       outline: this.state.isShowToolbar || this.state.isShowEditor? '1px dashed #aaa': 'none',
     };
 
+    const widgetWrapperClass = classNames(
+      'ui',
+      'basic',
+      'segment', {
+        'disabled': this.state.isShowEditor,
+      }
+    );
+
+    // this value is for previewing widget,
+    // so we don't use `this.props.value`
+    // instead of `this.state.value` as custom value
+    const composedValue = assign(
+      {},
+      _getWidgetSet(this.props.type).defaultValue,
+      value
+    );
+
     return (
       <div
-        onMouseOver={this.mouseOver}
-        onMouseOut={this.mouseOut}
+        onMouseOver={this._handleMouseOver}
+        onMouseOut={this._handleMouseOut}
         style={style}>
-        {this.renderWidgetToolbar()}
-        <WidgetComponent
-          preview={true}
-          value={value}
-          onChange={onChange} />
-        {this.renderWidgetEditor()}
+        {this._renderWidgetToolbar()}
+        <div
+          className={widgetWrapperClass}
+          onDoubleClick={this._handleEditClick}>
+          <WidgetComponent
+            value={composedValue} />
+        </div>
+        {this._renderWidgetEditor()}
       </div>
     );
   }

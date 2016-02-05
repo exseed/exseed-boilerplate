@@ -23,7 +23,7 @@ function collect(connect, monitor) {
 @DragSource(ItemTypes.WIDGET_CREATE, widgetSource, collect)
 export default class SampleWidget extends React.Component {
   render() {
-    const { type, fields, value } = this.props;
+    const { type, defaultValue } = this.props;
     const { isDragging, connectDragSource } = this.props;
     const style = {
       opacity: isDragging? 0.5: 1,
@@ -33,8 +33,7 @@ export default class SampleWidget extends React.Component {
       <div style={style}>
         <Widget
           type={type}
-          fields={fields}
-          value={value} />
+          value={defaultValue} />
       </div>
     );
   }

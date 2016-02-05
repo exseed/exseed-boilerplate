@@ -71,12 +71,16 @@ const widgetTarget = {
 export default class SortableWidget extends React.Component {
   constructor(state) {
     super(state);
-    this._handleRemoveClick = this._handleRemoveClick.bind(this);
+    this._handleWidgetRemove = this._handleWidgetRemove.bind(this);
     this._handleWidgetSave = this._handleWidgetSave.bind(this);
   }
 
-  _handleRemoveClick() {
-    WidgetAction.removeWidget(this.props.index);
+  _handleWidgetRemove() {
+    const { index } = this.props;
+    const confirmDelete = confirm('Are you sure?');
+    if (confirmDelete) {
+      WidgetAction.removeWidget(index);
+    }
   }
 
   _handleWidgetSave(newValue) {
@@ -100,7 +104,6 @@ export default class SortableWidget extends React.Component {
       isDragging,
       index,
       type,
-      fields,
       value
     } = this.props;
 
@@ -111,8 +114,8 @@ export default class SortableWidget extends React.Component {
       <div style={{ ...style.widgetContainer, opacity, outline }}>
         <Widget
           onSave={this._handleWidgetSave}
+          onRemove={this._handleWidgetRemove}
           type={type}
-          fields={fields}
           value={value} />
       </div>
     ));
