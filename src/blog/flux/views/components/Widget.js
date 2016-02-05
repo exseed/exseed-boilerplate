@@ -54,9 +54,14 @@ export default class Widget extends React.Component {
     });
   }
 
-  _handleFieldChange(label, e) {
+  _handleFieldChange(field, e) {
+    const { label, type } = field;
     let newPair = {};
-    newPair[`${label}`] = e.target.value;
+    if (type === FieldTypes.TOGGLE) {
+      newPair[`${label}`] = !this.state.value[label];
+    } else {
+      newPair[`${label}`] = e.target.value;
+    }
     const newValue = assign({}, this.state.value, newPair);
     this.setState({
       value: newValue,
@@ -99,6 +104,11 @@ export default class Widget extends React.Component {
 
   _renderWidgetEditor() {
     const { fields } = _getWidgetSet(this.props.type);
+    const inlineFields = fields
+      .filter(field => field.type === FieldTypes.TOGGLE);
+    const blockFields = fields
+      .filter(field => field.type !== FieldTypes.TOGGLE);
+
     const style = {
       backgroundColor: '#eee',
       width: '100%',
@@ -109,32 +119,65 @@ export default class Widget extends React.Component {
     return (
       <div style={style}>
         <div className="ui form">
-          {fields.map(field => {
-            return (
-              <div className="field" key={field.label}>
-                <label>{field.label}</label>
-                {field.type == FieldTypes.TEXTAREA &&
-                  <textarea
-                    onChange={this._handleFieldChange.bind(this, field.label)}
-                    value={this.state.value[field.label]} />}
-                {field.type == FieldTypes.TEXT &&
+          {inlineFields.length > 0 &&
+            <div className="inline fields">
+              {inlineFields.map(field => {
+                return (
+                  <div className="field" key={field.label}>
+                    <div className="ui checkbox">
+                      <input
+                        type="checkbox"
+                        onChange={this._handleFieldChange.bind(this, field)}
+                        checked={this.state.value[field.label]} />
+                      <label>{field.label}</label>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>}
+          {blockFields.map(field => {
+            if (field.type === FieldTypes.TEXT) {
+              return (
+                <div className="field" key={field.label}>
+                  <label>{field.label}</label>
                   <input
                     type="text"
-                    onChange={this._handleFieldChange.bind(this, field.label)}
-                    value={this.state.value[field.label]} />}
-                {field.type == FieldTypes.SELECT &&
+                    onChange={this._handleFieldChange.bind(this, field)}
+                    value={this.state.value[field.label]} />
+                </div>
+              );
+            } else if (field.type === FieldTypes.TEXTAREA) {
+              return (
+                <div className="field" key={field.label}>
+                  <label>{field.label}</label>
+                  <textarea
+                    onChange={this._handleFieldChange.bind(this, field)}
+                    value={this.state.value[field.label]} />
+                </div>
+              );
+            } else if (field.type === FieldTypes.SELECT) {
+              return (
+                <div className="field" key={field.label}>
+                  <label>{field.label}</label>
                   <select
                     defaultValue={this.state.value[field.label]}
-                    onChange={this._handleFieldChange.bind(this, field.label)}>
+                    onChange={this._handleFieldChange.bind(this, field)}>
                     {field.options.map(option =>
                       <option
                         key={option.value}
                         value={option.value}>
                         {option.label}
                       </option>)}
-                  </select>}
-              </div>
-            );
+                  </select>
+                </div>
+              );
+            } else {
+              return (
+                <div>
+                  Unknow field type: {field.type}
+                </div>
+              );
+            }
           })}
           <div
             className="ui mini red button"

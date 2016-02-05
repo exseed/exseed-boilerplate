@@ -8,4 +8,5 @@ export const FieldTypes = {
   TEXT: 'text',
   TEXTAREA: 'textarea',
   SELECT: 'select',
+  TOGGLE: 'toggle',
 };

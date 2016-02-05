@@ -55,15 +55,20 @@ class WidgetStore {
         id: 2,
         type: 'img',
         fields: [{
+          type: FieldTypes.TOGGLE,
+          label: 'center',
+        }, {
+          type: FieldTypes.TOGGLE,
+          label: 'border',
+        }, {
+          type: FieldTypes.TOGGLE,
+          label: 'round',
+        }, {
+          type: FieldTypes.TOGGLE,
+          label: 'circular',
+        }, {
           type: FieldTypes.TEXT,
           label: 'URL',
-        }, {
-          type: FieldTypes.SELECT,
-          label: 'align',
-          options: [
-            { value: 'left',   label: 'Left' },
-            { value: 'center', label: 'Center' },
-          ],
         }, {
           type: FieldTypes.SELECT,
           label: 'size',
@@ -79,6 +84,10 @@ class WidgetStore {
           ],
         }],
         defaultValue: {
+          center: true,
+          border: false,
+          round: false,
+          circular: false,
           URL: '/blog/img/widget_img_sample.png',
           align: 'center',
           size: 'small',

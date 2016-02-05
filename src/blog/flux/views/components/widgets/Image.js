@@ -7,9 +7,11 @@ export default class Image extends React.Component {
     const imgClass = classNames(
       'ui',
       'image',
-      value.size, {
-        'centered': value.align === 'center',
-      },
+      value.size,
+      { 'centered': value.center },
+      { 'bordered': value.border },
+      { 'rounded': value.round },
+      { 'circular': value.circular },
     );
 
     return (
