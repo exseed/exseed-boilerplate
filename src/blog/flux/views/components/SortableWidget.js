@@ -10,7 +10,7 @@ const widgetSource = {
     return {
       index: props.index,
     };
-  }
+  },
 };
 
 const widgetTarget = {
@@ -57,7 +57,7 @@ const widgetTarget = {
     // but it's good here for the sake of performance
     // to avoid expensive index searches.
     monitor.getItem().index = hoverIndex;
-  }
+  },
 };
 
 @DropTarget(ItemTypes.WIDGET_SORT, widgetTarget, (connect, monitor) => ({
@@ -106,7 +106,7 @@ export default class SortableWidget extends React.Component {
       _isDragging,
       index,
       type,
-      value
+      value,
     } = this.props;
 
     const opacity = isDragging? 0.3: 1;

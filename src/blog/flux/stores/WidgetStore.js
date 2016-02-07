@@ -1,12 +1,13 @@
 import alt from '../alt';
 import assign from 'object-assign';
 import update from 'react/lib/update';
-import WidgetAction from '../actions/WidgetAction'
+import WidgetAction from '../actions/WidgetAction';
 import { FieldTypes } from '../constants';
 
 function _makeid() {
   let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   for (let i = 0; i < 5; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -38,10 +39,10 @@ class WidgetStore {
             { value: '4',   label: '4' },
             { value: '5',   label: '5' },
           ],
-        }],
+        },],
         defaultValue: {
-          header: 'Sample Header',
-          subheader: '',
+          header: 'SAMPLE HEADER',
+          subheader: 'And Subheader',
           align: 'left',
           level: 2,
         },
@@ -51,7 +52,7 @@ class WidgetStore {
         fields: [{
           type: FieldTypes.TEXTAREA,
           label: 'content',
-        }],
+        },],
         defaultValue: {
           content: 'sample text',
         },
@@ -86,7 +87,7 @@ class WidgetStore {
             { value: 'huge',    label: 'Huge(800px)' },
             { value: 'massive', label: 'Massive(960px)' },
           ],
-        }],
+        },],
         defaultValue: {
           center: true,
           border: false,
@@ -96,7 +97,7 @@ class WidgetStore {
           align: 'center',
           size: 'small',
         },
-      }],
+      },],
 
       // the widget sets that user constructs
       contentWidgets: [{
@@ -109,7 +110,9 @@ class WidgetStore {
         id: 1,
         type: 'text',
         value: {
+          // jscs:disable
           content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt at natus ad delectus provident sit. Dolorum animi, facilis, eaque repellendus, illum libero voluptate sunt atque, beatae itaque a quia ipsam.',
+          // jscs:enable
         },
       }, {
         id: 2,
@@ -119,7 +122,7 @@ class WidgetStore {
           align: 'center',
           size: 'small',
         },
-      }],
+      },],
     };
   }
 

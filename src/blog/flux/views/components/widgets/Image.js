@@ -8,10 +8,10 @@ export default class Image extends React.Component {
       'ui',
       'image',
       value.size,
-      { 'centered': value.center },
-      { 'bordered': value.border },
-      { 'rounded': value.round },
-      { 'circular': value.circular },
+      { centered: value.center },
+      { bordered: value.border },
+      { rounded: value.round },
+      { circular: value.circular },
     );
 
     return (

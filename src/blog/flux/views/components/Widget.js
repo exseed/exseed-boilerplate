@@ -84,7 +84,8 @@ export default class Widget extends React.Component {
       top: 0,
       right: 0,
       padding: 2,
-      display: this.state.isShowToolbar || this.state.isShowEditor? 'block': 'none',
+      display:
+        this.state.isShowToolbar || this.state.isShowEditor? 'block': 'none',
     };
 
     return (
@@ -203,21 +204,24 @@ export default class Widget extends React.Component {
 
     const {
       type,
-      value
+      value,
     } = this.props;
 
     const WidgetComponent = widgetComponentMap[type];
 
     const style = {
       position: 'relative',
-      outline: this.state.isShowToolbar || this.state.isShowEditor? '1px dashed #aaa': 'none',
+      outline: (
+        this.state.isShowToolbar || this.state.isShowEditor?
+        '1px dashed #aaa': 'none'
+      ),
     };
 
     const widgetWrapperClass = classNames(
       'ui',
       'basic',
       'segment', {
-        'disabled': this.state.isShowEditor,
+        disabled: this.state.isShowEditor,
       }
     );
 

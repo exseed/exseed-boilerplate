@@ -14,7 +14,7 @@ const widgetTarget = {
       type: item.type,
       value: item.value,
     });
-  }
+  },
 };
 
 function collect(connect, monitor) {
@@ -40,7 +40,7 @@ export default class InsertableWidget extends React.Component {
       isOver,
       index,
       type,
-      value
+      value,
     } = this.props;
 
     return connectDropTarget(

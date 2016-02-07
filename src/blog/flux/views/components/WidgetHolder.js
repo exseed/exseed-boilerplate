@@ -10,7 +10,7 @@ const widgetTarget = {
       type: item.type,
       value: item.value,
     });
-  }
+  },
 };
 
 function collect(connect, monitor) {
@@ -35,7 +35,7 @@ export default class WidgetHolder extends React.Component {
       isDragging,
       isOver,
       item,
-      index
+      index,
     } = this.props;
     const style = {
       width: '100%',
