@@ -8,6 +8,7 @@ import { FieldTypes } from '../../constants';
 import Text from './widgets/Text';
 import Image from './widgets/Image';
 import Header from './widgets/Header';
+import Code from './widgets/Code';
 
 function _getWidgetSet(type) {
   const { widgetSets } = WidgetStore.getState();
@@ -200,6 +201,7 @@ export default class Widget extends React.Component {
       text: Text,
       img: Image,
       header: Header,
+      code: Code,
     };
 
     const {

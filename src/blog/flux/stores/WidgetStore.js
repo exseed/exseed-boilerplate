@@ -97,6 +97,58 @@ class WidgetStore {
           align: 'center',
           size: 'small',
         },
+      }, {
+        id: 3,
+        type: 'code',
+        fields: [{
+          type: FieldTypes.SELECT,
+          label: 'language',
+          options: [
+            { value: 'markup',     label: 'markup' },
+            { value: 'css',        label: 'css' },
+            { value: 'javascript', label: 'js' },
+            { value: 'jsx',        label: 'jsx' },
+            { value: 'markdown',   label: 'markdown' },
+          ],
+        }, {
+          type: FieldTypes.TEXTAREA,
+          label: 'code',
+        }, {
+          type: FieldTypes.TEXT,
+          label: 'lineHighlight',
+        }, {
+          type: FieldTypes.TOGGLE,
+          label: 'showLineHighlight',
+        }, {
+          type: FieldTypes.TOGGLE,
+          label: 'showLineNumbers',
+        }, {
+          type: FieldTypes.SELECT,
+          label: 'maxHeight',
+          options: [
+            { value: 'auto', label: 'Auto' },
+            { value: 300,    label: '300px' },
+            { value: 600,    label: '600px' },
+          ],
+        },],
+        defaultValue: {
+          language: 'javascript',
+          showLineHighlight: true,
+          showLineNumbers: false,
+          lineHighlight: '',
+          maxHeight: 300,
+          code: `//
+//   █████▒█    ██  ▄████▄   ██ ▄█▀       ██████╗ ██╗   ██╗ ██████╗
+// ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒        ██╔══██╗██║   ██║██╔════╝
+// ▒████ ░▓██  ▒██░▒▓█    ▄ ▓███▄░        ██████╔╝██║   ██║██║  ███╗
+// ░▓█▒  ░▓▓█  ░██░▒▓▓▄ ▄██▒▓██ █▄        ██╔══██╗██║   ██║██║   ██║
+// ░▒█░   ▒▒█████▓ ▒ ▓███▀ ░▒██▒ █▄       ██████╔╝╚██████╔╝╚██████╔╝
+//  ▒ ░   ░▒▓▒ ▒ ▒ ░ ░▒ ▒  ░▒ ▒▒ ▓▒       ╚═════╝  ╚═════╝  ╚═════╝
+//  ░     ░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░
+//  ░ ░    ░░░ ░ ░ ░        ░ ░░ ░
+//           ░     ░ ░      ░  ░
+//                 ░`,
+        },
       },],
 
       // the widget sets that user constructs
