@@ -19,6 +19,9 @@ class WidgetStore {
   constructor() {
     this.bindActions(WidgetAction);
     this.state = {
+      insertableHoverIndex: -1,
+      insertableHoverDirection: 'none',
+
       // all allowed widgets
       widgetSets: [{
         id: 0,
@@ -178,12 +181,30 @@ class WidgetStore {
     };
   }
 
-  // onInsertWidget([index, widget]) {
-  //   this.contentWidgets.splice(index, 0, {
-  //     ...widget,
-  //     id: _makeid(),
-  //   });
-  // }
+  onInsertWidget([index, widget]) {
+    let widgets = this.state.contentWidgets;
+    const newWidget = {
+      ...widget,
+      id: _makeid(),
+    };
+    if (this.state.insertableHoverDirection === 'up') {
+      this.setState({
+        contentWidgets: [
+          ...widgets.slice(0, index),
+          newWidget,
+          ...widgets.slice(index),
+        ],
+      });
+    } else if (this.state.insertableHoverDirection === 'down') {
+      this.setState({
+        contentWidgets: [
+          ...widgets.slice(0, index + 1),
+          newWidget,
+          ...widgets.slice(index + 1),
+        ],
+      });
+    }
+  }
 
   onPushWidget(widget) {
     const newWidget = {
@@ -236,6 +257,13 @@ class WidgetStore {
         updatedWidget,
         ...widgets.slice(index + 1),
       ],
+    });
+  }
+
+  onUpdateInsertableHoverDirection([index, direction]) {
+    this.setState({
+      insertableHoverIndex: index,
+      insertableHoverDirection: direction,
     });
   }
 }

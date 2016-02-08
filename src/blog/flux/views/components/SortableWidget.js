@@ -4,12 +4,30 @@ import { ItemTypes } from '../../constants';
 import { DragSource, DropTarget } from 'react-dnd';
 import Widget from './Widget';
 import WidgetAction from '../../actions/WidgetAction';
+import WidgetStore from '../../stores/WidgetStore';
 
 const widgetSource = {
   beginDrag(props) {
     return {
       index: props.index,
     };
+  },
+};
+
+const widgetCrTarget = {
+  hover(props, monitor, component) {
+    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+    const clientOffset = monitor.getClientOffset();
+    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+    if (hoverClientY < hoverMiddleY) {
+      WidgetAction.updateInsertableHoverDirection(props.index, 'up');
+    } else if (hoverClientY > hoverMiddleY) {
+      WidgetAction.updateInsertableHoverDirection(props.index, 'down');
+    }
+  },
+  drop(props, monitor, component) {
+    WidgetAction.insertWidget(props.index, monitor.getItem());
   },
 };
 
@@ -60,14 +78,21 @@ const widgetTarget = {
   },
 };
 
+@DropTarget(ItemTypes.WIDGET_CREATE, widgetCrTarget, (connect, monitor) => ({
+  connectInsertableDropTarget: connect.dropTarget(),
+  _isDraggingInsertable: !!monitor.getItem(),
+  isOverInsertable: monitor.isOver(),
+  clientOffset: monitor.getClientOffset(),
+  item: monitor.getItem(),
+  itemType: monitor.getItemType(),
+}))
 @DropTarget(ItemTypes.WIDGET_SORT, widgetTarget, (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  _isDragging: !!monitor.getItem(),
+  connectSortableDropTarget: connect.dropTarget(),
+  _isDraggingSortable: !!monitor.getItem(),
 }))
 @DragSource(ItemTypes.WIDGET_SORT, widgetSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  connectDragPreview: connect.dragPreview(),
-  isDragging: monitor.isDragging()
+  connectSortableDragSource: connect.dragSource(),
+  isDraggingSortable: monitor.isDragging()
 }))
 export default class SortableWidget extends React.Component {
   constructor(state) {
@@ -90,36 +115,72 @@ export default class SortableWidget extends React.Component {
   }
 
   render() {
-    const style = {
-      moveIcon: {
-        cursor: 'move',
-      },
-      widgetContainer: {
-        backgroundColor: 'white',
-      },
-    };
-
     const {
-      connectDragSource,
-      connectDropTarget,
-      isDragging,
-      _isDragging,
-      index,
-      type,
-      value,
+      itemType,
+      connectSortableDragSource,
+      connectSortableDropTarget,
+      connectInsertableDropTarget,
     } = this.props;
 
-    const opacity = isDragging? 0.3: 1;
-    const outline = _isDragging? '1px dashed gray': 'none';
+    const { index, type, value } = this.props;
 
-    return connectDragSource(connectDropTarget(
-      <div style={{ ...style.widgetContainer, opacity, outline }}>
-        <Widget
-          onSave={this._handleWidgetSave}
-          onRemove={this._handleWidgetRemove}
-          type={type}
-          value={value} />
-      </div>
-    ));
+    let style = {
+      backgroundColor: 'white',
+    };
+
+    if (itemType === ItemTypes.WIDGET_SORT) {
+      // when sortable widget source is dragged
+      const {
+        isDraggingSortable,
+        _isDraggingSortable,
+      } = this.props;
+
+      const opacity = isDraggingSortable? 0.3: 1;
+      const outline = _isDraggingSortable? '1px dashed gray': 'none';
+      style = { ...style, opacity, outline };
+    } else if (itemType === ItemTypes.WIDGET_CREATE) {
+      // when insertable widget source is dragged
+      const {
+        isOverInsertable,
+        _isDraggingInsertable,
+        item,
+      } = this.props;
+
+      const {
+        insertableHoverDirection,
+        insertableHoverIndex,
+      } = WidgetStore.getState();
+
+      const outline = '1px dashed gray';
+      style = {
+        ...style,
+        outline,
+      };
+      if (isOverInsertable) {
+        style = {
+          ...style,
+          boxShadow:
+            insertableHoverDirection === 'up'?
+            '0 3px 0 green inset, 0 0 0 #000 inset':
+            '0 -3px 0 green inset, 0 0 0 #000 inset',
+        };
+      }
+    } else {
+      // when nothing is dragged
+    }
+
+    return (
+      connectInsertableDropTarget(
+      connectSortableDragSource(
+      connectSortableDropTarget(
+        <div style={style}>
+          <Widget
+            onSave={this._handleWidgetSave}
+            onRemove={this._handleWidgetRemove}
+            type={type}
+            value={value} />
+        </div>
+      )))
+    );
   }
 };

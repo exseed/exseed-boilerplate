@@ -7,7 +7,8 @@ class WidgetActions {
       'pushWidget',
       'removeWidget',
       'moveWidget',
-      'updateValue'
+      'updateValue',
+      'updateInsertableHoverDirection'
     );
   }
 }
