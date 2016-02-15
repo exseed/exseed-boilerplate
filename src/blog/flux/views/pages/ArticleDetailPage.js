@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import MenuLayout from '../layouts/MenuLayout';
+import Widget from '../components/Widget';
 import ArticleAction from '../../actions/ArticleAction';
 import ArticleStore from '../../stores/ArticleStore';
 
 @connectToStores
-export default class ArticleListPage extends React.Component {
+export default class ArticleDetailPage extends React.Component {
   static getStores() {
     return [ArticleStore];
   }
@@ -16,24 +16,28 @@ export default class ArticleListPage extends React.Component {
   }
 
   componentDidMount() {
-    ArticleAction.fetchAll();
+    let { id } = this.props.params;
+    ArticleAction.fetch(id);
   }
 
   render() {
-    const list = this.props.articles.map(article =>
-      <div className="ui vertical padded segment" key={article.id}>
-        <Link className="ui header" to={`/blog/article/${article.id}`}>
-          {article.title}
-        </Link>
-      </div>
-    );
+    const {
+      title,
+      content,
+    } = this.props.article;
 
     return (
       <MenuLayout>
         <div className="container right">
-          <div className="ui very relaxed items">
-            {list}
+          <div className="ui basic segment">
+            <h1 className="ui center aligned header">{title}</h1>
           </div>
+          {content.map(widget =>
+            <Widget
+              key={widget.id}
+              display={true}
+              type={widget.type}
+              value={widget.value} />)}
         </div>
       </MenuLayout>
     );

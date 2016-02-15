@@ -21,4 +21,12 @@ export default function({ app }) {
         });
       });
   });
+
+  app.get('/api/blog/article/:id', (req, res) => {
+    models.article
+      .findOneById(req.params.id)
+      .then((article) => {
+        res.json(article);
+      });
+  });
 };

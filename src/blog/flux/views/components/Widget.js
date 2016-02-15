@@ -207,6 +207,7 @@ export default class Widget extends React.Component {
     const {
       type,
       value,
+      display,
     } = this.props;
 
     const WidgetComponent = widgetComponentMap[type];
@@ -236,20 +237,30 @@ export default class Widget extends React.Component {
       value
     );
 
-    return (
-      <div
-        onMouseOver={this._handleMouseOver}
-        onMouseOut={this._handleMouseOut}
-        style={style}>
-        {this._renderWidgetToolbar()}
+    if (display) {
+      return (
         <div
-          className={widgetWrapperClass}
-          onDoubleClick={this._handleEditClick}>
+          className={widgetWrapperClass}>
           <WidgetComponent
             value={composedValue} />
         </div>
-        {this._renderWidgetEditor()}
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div
+          onMouseOver={this._handleMouseOver}
+          onMouseOut={this._handleMouseOut}
+          style={style}>
+          {this._renderWidgetToolbar()}
+          <div
+            className={widgetWrapperClass}
+            onDoubleClick={this._handleEditClick}>
+            <WidgetComponent
+              value={composedValue} />
+          </div>
+          {this._renderWidgetEditor()}
+        </div>
+      );
+    }
   }
 };
