@@ -15,6 +15,7 @@ export default class ArticleListPage extends React.Component {
         return res.json();
       })
       .then((data) => {
+        console.log('data', data);
         this.setState({
           articleList: data,
         });
@@ -24,15 +25,9 @@ export default class ArticleListPage extends React.Component {
   render() {
     const list = this.state.articleList.map(article =>
       <div className="ui vertical padded segment" key={article.id}>
-        <a className="ui header" href="#">
+        <a className="ui header" href={`/blog/article/${article.id}`}>
           {article.title}
         </a>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo
-        </p>
       </div>
     );
 

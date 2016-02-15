@@ -268,7 +268,7 @@ class WidgetStore {
   }
 
   onPublishSucc(res) {
-    console.log('Publish success', res);
+    location.href = '/blog';
   }
 }
 
