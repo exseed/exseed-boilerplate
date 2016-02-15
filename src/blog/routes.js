@@ -1,14 +1,24 @@
+import { models } from 'exseed';
+
 export default function({ app }) {
   app.get('/api/blog/article', (req, res) => {
-    res.json([
-      {
-        id: 1,
-        title: 'AAAAAAAAA',
-      },
-      {
-        id: 2,
-        title: 'BBBBB',
-      },
-    ]);
+    models.article
+      .find({
+        select: ['id', 'title'],
+      })
+      .then((articles) => {
+        res.json(articles);
+      });
+  });
+
+  app.post('/api/blog/article', (req, res) => {
+    models.article
+      .create(req.body)
+      .then((article) => {
+        res.json({
+          article: article,
+          errors: [],
+        });
+      });
   });
 };

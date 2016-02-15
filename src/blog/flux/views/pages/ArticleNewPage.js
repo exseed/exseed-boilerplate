@@ -10,6 +10,11 @@ import WidgetStore from '../../stores/WidgetStore';
 @DragDropContext(HTML5Backend)
 @connectToStores
 export default class ArticleNewPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this._handleBtnPublishClick = ::this._handleBtnPublishClick;
+  }
+
   static getStores() {
     return [WidgetStore];
   }
@@ -20,6 +25,13 @@ export default class ArticleNewPage extends React.Component {
 
   _handleInsertClick(widget) {
     WidgetAction.pushWidget(widget);
+  }
+
+  _handleBtnPublishClick() {
+    WidgetAction.publish(
+      this.refs.title.value,
+      this.props.contentWidgets
+    );
   }
 
   renderInsertDropdown() {
@@ -43,12 +55,29 @@ export default class ArticleNewPage extends React.Component {
   }
 
   render() {
+    const style = {
+      titleContainer: {
+        marginBottom: '40px',
+      },
+      titleInput: {
+        borderRadius: 0,
+        borderBottom: '3px dotted #aaa !important',
+        padding: '15px 0px !important',
+      },
+    };
+
     return (
       <div className="ui container basic segment">
         <div className="ui stackable grid">
           <div className="ui four wide column">
-            {this.renderInsertDropdown()}
             <div className="ui secondary vertical pointing menu">
+              {this.renderInsertDropdown()}
+              <button
+                className="ui blue button"
+                onClick={this._handleBtnPublishClick}>
+                Publish
+              </button>
+
               {this.props.widgetSets.map(widget =>
                 <SampleWidget
                   key={widget.id}
@@ -56,6 +85,15 @@ export default class ArticleNewPage extends React.Component {
             </div>
           </div>
           <div className="ui twelve wide column">
+            <div className="ui basic segment" style={style.titleContainer}>
+              <div className="ui transparent massive fluid input">
+                <input
+                  type="text"
+                  ref="title"
+                  placeholder="Type Your Title..."
+                   style={style.titleInput} />
+              </div>
+            </div>
             {this.props.contentWidgets.map((widget, index) =>
               <SortableWidget
                 key={widget.id}

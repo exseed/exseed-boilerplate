@@ -266,6 +266,10 @@ class WidgetStore {
       insertableHoverDirection: direction,
     });
   }
+
+  onPublishSucc(res) {
+    console.log('Publish success', res);
+  }
 }
 
 export default alt.createStore(WidgetStore, 'WidgetStore');

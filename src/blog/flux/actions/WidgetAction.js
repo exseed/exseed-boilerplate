@@ -8,8 +8,30 @@ class WidgetActions {
       'removeWidget',
       'moveWidget',
       'updateValue',
-      'updateInsertableHoverDirection'
+      'updateInsertableHoverDirection',
+      'publishSucc',
+      'publishFail'
     );
+  }
+
+  publish(title, content) {
+    return $.ajax({
+      url: '/api/blog/article',
+      dataType: 'json',
+      contentType: 'application/json',
+      type: 'POST',
+      data: JSON.stringify({
+        title: title,
+        content: content,
+      }),
+      success: (res) => {
+        this.publishSucc(res);
+      },
+      error: (xhr, status, err) => {
+        this.publishFail(xhr);
+        console.error(status, err.toString());
+      },
+    });
   }
 }
 
