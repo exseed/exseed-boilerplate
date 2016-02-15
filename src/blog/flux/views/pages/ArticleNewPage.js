@@ -1,9 +1,9 @@
 import React from 'react';
+import connectToStores from 'alt-utils/lib/connectToStores';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import SampleWidget from '../components/SampleWidget';
 import SortableWidget from '../components/SortableWidget';
-import connectToStores from 'alt-utils/lib/connectToStores';
 import WidgetAction from '../../actions/WidgetAction';
 import WidgetStore from '../../stores/WidgetStore';
 
