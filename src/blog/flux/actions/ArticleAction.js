@@ -1,6 +1,6 @@
 import alt from '../alt';
 
-class ArticleActions {
+class ArticleAction {
   constructor() {
     this.generateActions(
       'fetchAll',
@@ -9,4 +9,4 @@ class ArticleActions {
   }
 }
 
-export default alt.createActions(ArticleActions);
+export default alt.createActions(ArticleAction);

@@ -1,6 +1,6 @@
 import alt from '../alt';
 
-class WidgetActions {
+class WidgetAction {
   constructor() {
     this.generateActions(
       'insertWidget',
@@ -35,4 +35,4 @@ class WidgetActions {
   }
 }
 
-export default alt.createActions(WidgetActions);
+export default alt.createActions(WidgetAction);
