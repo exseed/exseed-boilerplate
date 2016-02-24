@@ -30,7 +30,7 @@
     "body-parser": "^1.14.1",
     "classnames": "^2.2.3",
     "cookie-parser": "^1.4.0",
-    "exseed": "^0.1.15",
+    "exseed": "^0.2.2",
     "jwt-simple": "^0.4.0",
     "moment": "^2.10.6",
     "morgan": "^1.6.1",
